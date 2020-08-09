@@ -26,48 +26,44 @@
     <script src="barChartRace.js"></script>
     <script type="text/javascript" src="data/testA.json"></script>
     <script>
-        axios.get('http://covid-tracker-us.herokuapp.com/confirmed').then(restres => {
-            let res = JSON.parse(data);
-            let racingbar = new barChartRace({
-                target: '#racingbar',
-                title: 'Orlando Fantasy Race for 2019/20'
-            })
-            let histories = formatGWHistory(res.fpl_details[0].gw_history)
-            histories.forEach(gw_history => {
-                racingbar.sets.push(gw_history)
-            })
-
-            prepareData(res.fpl_details).forEach(player => {
-                racingbar.sets.forEach(gameweek => {
-                    const dateDay = gameweek.split(" ").pop()
-                    const dateBefore = dateDay - 1
-                    const colorVal = d3.hsl(Math.random() * 360, 0.75, 0.75)
-                    racingbar.series.push({
-                        date: gameweek,
-                        value: player.gw_history[dateDay],
-                        //code: player.player_code,
-                        name: player.player_name,
-                        img: "flags/"+player.player_code.toLowerCase()+".svg",
-                        color: colorVal,
-                        lastValue: player.gw_history[dateBefore] ? player.gw_history[dateBefore] : 0
-                    })
-                })
-                racingbar.scores[player.player_name] = player.latest
-            })
-
-            let yIndex = racingbar.yIndex;
-            racingbar.date = racingbar.sets[yIndex];
-            racingbar.setSlice = racingbar.series.filter(d => d.date == racingbar.date && !isNaN(d.value))
-                .sort((a,b) => b.value - a.value)
-                .slice(0, 10);
-
-            racingbar.setSlice.forEach((d,i) => d.rank = i);
-
-            racingbar.update()
-
-        }).catch(err => {
-            console.log(err);
+    
+        let res = JSON.parse(data);
+        let racingbar = new barChartRace({
+            target: '#racingbar',
+            title: 'Orlando Fantasy Race for 2019/20'
         })
+        let histories = formatGWHistory(res.fpl_details[0].gw_history)
+        histories.forEach(gw_history => {
+            racingbar.sets.push(gw_history)
+        })
+
+        prepareData(res.fpl_details).forEach(player => {
+            racingbar.sets.forEach(gameweek => {
+                const dateDay = gameweek.split(" ").pop()
+                const dateBefore = dateDay - 1
+                const colorVal = d3.hsl(Math.random() * 360, 0.75, 0.75)
+                racingbar.series.push({
+                    date: gameweek,
+                    value: player.gw_history[dateDay],
+                    //code: player.player_code,
+                    name: player.player_name,
+                    img: "flags/"+player.player_code.toLowerCase()+".svg",
+                    color: colorVal,
+                    lastValue: player.gw_history[dateBefore] ? player.gw_history[dateBefore] : 0
+                })
+            })
+            racingbar.scores[player.player_name] = player.latest
+        })
+
+        let yIndex = racingbar.yIndex;
+        racingbar.date = racingbar.sets[yIndex];
+        racingbar.setSlice = racingbar.series.filter(d => d.date == racingbar.date && !isNaN(d.value))
+            .sort((a,b) => b.value - a.value)
+            .slice(0, 10);
+
+        racingbar.setSlice.forEach((d,i) => d.rank = i);
+
+        racingbar.update()
 
         function formatGWHistory(gw_history) {
             return Object.keys(gw_history).map(key => {
