@@ -26,11 +26,11 @@
     <script src="barChartRace.js"></script>
     <script type="text/javascript" src="data/testA.json"></script>
     <script>
-    
+
         let res = JSON.parse(data);
         let racingbar = new barChartRace({
             target: '#racingbar',
-            title: 'Orlando Fantasy Race for 2019/20'
+            title: 'Tampa Fantasy Race for 2019/20'
         })
         let histories = formatGWHistory(res.fpl_details[0].gw_history)
         histories.forEach(gw_history => {
