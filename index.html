@@ -30,7 +30,7 @@
         let res = JSON.parse(data);
         let racingbar = new barChartRace({
             target: '#racingbar',
-            title: 'Orlando Fantasy Race for 2019/20'
+            title: 'Orlando Fantasy Race for 2022/23'
         })
         let histories = formatGWHistory(res.fpl_details[0].gw_history)
         histories.forEach(gw_history => {
@@ -47,7 +47,8 @@
                     value: player.gw_history[dateDay],
                     //code: player.player_code,
                     name: player.player_name,
-                    img: "flags/"+player.player_code.toLowerCase()+".svg",
+                    img: "flags/common.svg",
+                    // img: "flags/"+player.player_code.toLowerCase()+".svg",
                     color: colorVal,
                     lastValue: player.gw_history[dateBefore] ? player.gw_history[dateBefore] : 0
                 })
@@ -76,7 +77,7 @@
             arr.forEach(item => {
                 let playerProp = item.player_name
                 mergeMap.set(playerProp, {
-                    "player_code": item.player_code,
+                    // "player_code": item.player_code,
                     player_name: item.player_name,
                     gw_history: item.gw_history,
                     latest: item.latest
